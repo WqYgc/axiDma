@@ -16,16 +16,10 @@ enum _log_level{
     LOG_LEVEL_TRACE     = 6,
 };
 
-extern unsigned int  DEBUG_LEVEL;
+unsigned int  DEBUG_LEVEL=4;
 typedef enum _log_level log_level;
 
-#if 0
-//this arg can be overide by top layer
-#ifndef      
-#define      DEBUG_LEVEL           LOG_LEVEL_ERROR
-#endif
-#endif
-#if 0
+#if 1
 #define	log_bug(level, fmt, arg...)	        \
 do{                                         \
     if(DEBUG_LEVEL >= level){               \
@@ -34,24 +28,24 @@ do{                                         \
 				break;                      \
                                             \
 			case LOG_LEVEL_FATAL:           \
-                printf("log fatal : %s:%s:%u %s:%s", __FILE__, __func__,__LINE__, __DATE__, __TIME__); \
+                printf("log fatal : %s:%s:%u %s:%s  ::", __FILE__, __func__,__LINE__, __DATE__, __TIME__); \
                 break;                      \
                                             \
 			case LOG_LEVEL_ERROR:           \
-                printf("log error : %s:%s:%u", __FILE__, __func__,__LINE__); \
+                printf("log error : %s:%s:%u  ::", __FILE__, __func__,__LINE__); \
                 break;                      \
                                             \
 			case LOG_LEVEL_WARN:            \
-				 printf("log warn : %s:%s:%u", __FILE__, __func__,__LINE__); \
+				 printf("log warn : %s:%s:%u  ::", __FILE__, __func__,__LINE__); \
                 break;                      \
                                             \
 			case LOG_LEVEL_INFO:            \
-                printf("log info : %s:%s:%u", __FILE__, __func__,__LINE__); \
+                printf("log info : %s:%s:%u  ::", __FILE__, __func__,__LINE__); \
                 break;                      \
                                             \
 			case LOG_LEVEL_DEBUG:           \
 			case LOG_LEVEL_TRACE:           \
-             printf("log trace : %s:%s:%u", __FILE__, __func__,__LINE__); \
+             printf("log trace : %s:%s:%u  ::", __FILE__, __func__,__LINE__); \
                 break;                      \
 			default:                        \
 				break;                      \

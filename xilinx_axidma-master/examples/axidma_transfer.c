@@ -36,6 +36,7 @@
 #include "util.h"               // Miscellaneous utilities
 #include "conversion.h"         // Convert bytes to MiBs
 #include "libaxidma.h"          // Interface ot the AXI DMA library
+#include "debug.h"
 
 /*----------------------------------------------------------------------------
  * Internal Definitions
@@ -108,10 +109,10 @@ static int parse_args(int argc, char **argv, char **input_path,
     o_specified = false;
     s_specified = false;
     rc = 0;
-    printf("初始值：optind = %d，opterr = %d\n", optind, opterr);
+    printf("optind = %d opterr = %d\n", optind, opterr);
     while ((option = getopt(argc, argv, "t:r:s:o:h")) != (char)-1)
     {
-        printf("开始解析参数：optind = %d\n", optind);
+        printf("optind = %d\n", optind);
         switch (option)
         {
             // Parse the transmit channel device id
@@ -199,8 +200,8 @@ static int parse_args(int argc, char **argv, char **input_path,
       printf("2222开始解析参数：optind = %d\n", optind);
     *input_path = argv[optind];
     *output_path = argv[optind+1];
-    printf(" input_path:%s\n",*input_path);
-    printf(" output_path:%s\n",*output_path);
+    fprintf(stderr," input_path:%s\n",*input_path);
+    fprintf(stderr," output_path:%s\n",*output_path);
 
     return 0;
 }

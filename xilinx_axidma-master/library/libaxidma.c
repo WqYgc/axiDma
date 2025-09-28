@@ -26,7 +26,7 @@
 
 #include "libaxidma.h"          // Local definitions
 #include "axidma_ioctl.h"       // The IOCTL interface to AXI DMA
-
+#include "../examples/debug.h"       // The IOCTL interface to AXI DMA
 /*----------------------------------------------------------------------------
  * Internal definitions
  *----------------------------------------------------------------------------*/
@@ -152,7 +152,6 @@ static int probe_channels(axidma_dev_t dev)
     struct axidma_chan *channels;
     struct axidma_num_channels num_chan;
     struct axidma_channel_info channel_info;
-
     // Query the module for the total number of DMA channels
     rc = ioctl(dev->fd, AXIDMA_GET_NUM_DMA_CHANNELS, &num_chan);
     if (rc < 0) {
@@ -162,12 +161,15 @@ static int probe_channels(axidma_dev_t dev)
         fprintf(stderr, "No DMA channels are present.\n");
         return -ENODEV;
     }
-
+    log_bug(LOG_LEVEL_INFO,"num_channels:%d num_dma_rx_channels:%d num_dma_tx_channels:%d ",num_chan.num_channels,num_chan.num_dma_rx_channels,num_chan.num_dma_tx_channels);
+    log_bug(LOG_LEVEL_INFO,"num_channels:%d vdma_rx_channels:%d vdma_tx_channels:%d ",num_chan.num_channels,num_chan.num_vdma_rx_channels,num_chan.num_vdma_tx_channels);
     // Allocate an array to hold the channel meta-data
     channels = malloc(num_chan.num_channels * sizeof(channels[0]));
     if (channels == NULL) {
         return -ENOMEM;
     }
+   
+
 
     // Get the metdata about all the available channels
     channel_info.channels = channels;
@@ -177,7 +179,8 @@ static int probe_channels(axidma_dev_t dev)
         free(channels);
         return rc;
     }
-
+    log_bug(LOG_LEVEL_INFO,"dir:%d channel_id:%d type:%d ",channels[0].dir,channels[0].channel_id,channels[0].type);
+    log_bug(LOG_LEVEL_INFO,"dir:%d channel_id:%d type:%d ",channels[1].dir,channels[1].channel_id,channels[1].type);
     // Extract the channel id's, and organize them by type
     rc = categorize_channels(dev, channels, &num_chan);
     free(channels);
